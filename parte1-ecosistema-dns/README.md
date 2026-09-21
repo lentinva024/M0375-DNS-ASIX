@@ -45,23 +45,38 @@
 
 ### 2.1. ¿Qué información te brinda una consulta Whois sobre un dominio?
 
+**Dominio consultado:** `amazon.com`
+
 **Respuesta:**
 
-> Una consulta Whois proporciona información pública sobre el registro de un dominio, incluyendo:
+> Una consulta Whois proporciona información pública sobre el registro de un dominio. Para el caso de **amazon.com**, la consulta devuelve:
 >
-> - **Datos del registrante:** Nombre, organización, dirección, email, teléfono (pueden estar protegidos por privacidad/WHOIS Privacy)
-> - **Datos del registrador:** Nombre del registrador (empresa con la que se compró el dominio, ej. GoDaddy, Namecheap)
-> - **Fechas:** Fecha de creación (Creation Date), fecha de última actualización (Updated Date), fecha de expiración (Registry Expiry Date)
-> - **Servidores de nombres (Name Servers):** Los servidores DNS autoritativos del dominio
-> - **Estado del dominio (Domain Status):** Códigos EPP como clientHold, serverTransferProhibited, etc.
-> - **DNSSEC:** Si el dominio tiene DNSSEC activado
+> - **Datos del registrante:** Amazon Technologies, Inc. — Hostmaster, Amazon Legal Dept. — P.O. Box 8102, Reno, NV 89507, US — Tel: +1.2062664064
+> - **Datos del registrador:** MarkMonitor Inc. (IANA ID: 292) — Email de abuso: abusecomplaints@markmonitor.com
+> - **Fechas:**
+>   - Creación (Registered On): 1994-11-01
+>   - Expiración (Expires On): 2027-10-31
+>   - Última actualización (Updated On): 2026-07-31
+> - **Servidores de nombres (Name Servers):**
+>   - ns-1447.awsdns-52.org
+>   - ns-1707.awsdns-21.co.uk
+>   - ns-264.awsdns-33.com
+>   - ns-521.awsdns-01.net
+> - **Estado del dominio (Domain Status):**
+>   - client delete prohibited
+>   - client transfer prohibited
+>   - client update prohibited
+>   - server delete prohibited
+>   - server transfer prohibited
+>   - server update prohibited
+>
+> Estos estados indican que el dominio está protegido contra eliminaciones, transferencias y modificaciones no autorizadas, tanto a nivel de cliente (MarkMonitor) como de servidor (Verisign como registry de .com). Esto es típico de dominios corporativos críticos.
 
-**Herramientas recomendadas:**
-- https://who.is/
-- https://www.whois.com/
-- https://www.dominios.es/
+**Captura:**
 
-**Captura:** `capturas/parte1/whois-consulta.png`
+![Consulta Whois de amazon.com](../capturas/parte1/whois-amazon.png)
+
+**Herramienta utilizada:** https://www.whois.com/whois/amazon.com
 
 ---
 
@@ -136,7 +151,7 @@
 
 - [x] Jerarquía DNS investigada (ICANN/IANA)
 - [x] TLDs identificados (.es, .cat, .edu, .ifp.es)
-- [ ] Consulta Whois realizada y capturada
+- [x] Consulta Whois realizada y capturada (amazon.com)
 - [ ] Diferencia Registry vs Registrar explicada
 - [ ] DNSSEC investigado
 - [ ] GRC DNS Benchmark ejecutado y capturado
