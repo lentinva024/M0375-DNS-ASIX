@@ -35,21 +35,26 @@ DNS a configurar (obtenidos del benchmark con DNS Jumper):
 - DNS secundario: 149.112.112.112 (Quad9 Security)
 
 **Pasos en Windows:**
-1. Configuración → Red e Internet → Wi-Fi (o Ethernet, según tu conexión activa)
-2. Propiedades del adaptador de red → Protocolo de Internet versión 4 (TCP/IPv4) → Propiedades
-3. Seleccionar "Usar las siguientes direcciones de servidor DNS"
-4. DNS preferido: 9.9.9.9
-5. DNS alternativo: 149.112.112.112
-6. Aceptar
+1. Configuración → Red e Internet → Ethernet (adaptador activo)
+2. Propiedades → Editar asignación DNS → Manual → IPv4 Activado
+3. DNS preferido: 9.9.9.9
+4. DNS alternativo: 149.112.112.112
+5. Guardar
 
 Verificación del cambio:
 ```powershell
 ipconfig /all
 ```
 
-**Captura:**
+Se puede comprobar que en la sección del adaptador Ethernet los servidores DNS ahora son 9.9.9.9 y 149.112.112.112.
+
+**Captura del cambio de DNS:**
 
 ![Cambio de DNS a Quad9](../capturas/parte2/cambio-dns.png)
+
+**Captura de verificación con ipconfig /all:**
+
+![Comprobación DNS actualizado](../capturas/parte2/comprobacion-dns.png)
 
 ---
 
@@ -63,11 +68,15 @@ ipconfig /displaydns
 
 Este comando muestra el contenido de la caché DNS del cliente de Windows. Cada entrada contiene:
 - Nombre de registro (el dominio resuelto)
-- Tipo de registro (A, AAAA, CNAME, etc.)
+- Tipo de registro (A = 1, CNAME = 5, etc.)
 - Tiempo de vida (TTL): segundos restantes antes de expirar
 - Datos: la IP asociada
 
-**Captura:** `capturas/parte2/cache-dns.png`
+En la captura se pueden ver entradas como `github.githubassets.com` (registro A, TTL 2119, IP 185.199.110.215) y entradas CNAME de Sony que apuntan a Akamai Edge.
+
+**Captura:**
+
+![Caché DNS con ipconfig /displaydns](../capturas/parte2/cache-dns.png)
 
 ---
 
@@ -77,12 +86,16 @@ Este comando muestra el contenido de la caché DNS del cliente de Windows. Cada 
 ipconfig /flushdns
 ```
 
-Respuesta esperada:
+Respuesta del sistema:
 ```
+Configuración IP de Windows
+
 Se vació correctamente la caché de resolución DNS.
 ```
 
-**Captura:** `capturas/parte2/flush-dns.png`
+**Captura:**
+
+![Flush DNS con ipconfig /flushdns](../capturas/parte2/flush-dns.png)
 
 Vaciar la caché DNS es útil para un administrador de sistemas por varias razones:
 
@@ -103,5 +116,6 @@ Vaciar la caché DNS es útil para un administrador de sistemas por varias razon
 - [x] Comandos CLI para ver DNS (Windows y Linux) ejecutados y capturados
 - [x] DNS cambiados a 9.9.9.9 y 149.112.112.112 (Quad9)
 - [x] Captura del cambio de DNS
-- [ ] ipconfig /displaydns ejecutado y capturado
-- [ ] ipconfig /flushdns ejecutado y capturado
+- [x] Captura de verificación con ipconfig /all
+- [x] ipconfig /displaydns ejecutado y capturado
+- [x] ipconfig /flushdns ejecutado y capturado

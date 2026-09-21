@@ -2,10 +2,9 @@
 
 > En un entorno profesional, especialmente servidores Linux, la herramienta nslookup se considera obsoleta, siendo dig - Domain Information Groper - el estándar de la industria.
 
-Requisitos: Si estás en Windows, necesitas WSL o una máquina virtual Linux. En Linux, `dig` viene en el paquete `dnsutils` (Debian/Ubuntu).
-
+Requisitos: Ejecutado en WSL (Windows Subsystem for Linux) con Ubuntu. Instalación de dig:
 ```bash
-sudo apt install dnsutils   # si no lo tienes instalado
+sudo apt install dnsutils
 ```
 
 ---
@@ -20,14 +19,19 @@ dig aliexpress.com
 
 La salida de dig se divide en secciones:
 
-- **HEADER:** Versión de dig, opcode (QUERY), status (NOERROR), flags (qr rd ra) y número de respuestas.
-- **QUESTION SECTION:** La consulta original: `aliexpress.com. IN A`
-- **ANSWER SECTION:** Los registros A resueltos. Cada línea muestra el nombre del dominio, TTL, clase (IN), tipo (A) y la dirección IP.
-- **Footer:** Tiempo de consulta, servidor usado y tamaño del mensaje.
+- **HEADER:** DiG 9.20.24, opcode QUERY, status NOERROR, flags qr rd ra. Indica 1 consulta y 2 respuestas.
+- **QUESTION SECTION:** `aliexpress.com. IN A` — la consulta original.
+- **ANSWER SECTION:** Devuelve dos registros A:
+  - `aliexpress.com. 519 IN A 47.246.75.137`
+  - `aliexpress.com. 519 IN A 47.246.111.53`
+  - El TTL es de 519 segundos y las dos IPs corresponden a los servidores de AliExpress (round-robin para distribuir carga).
+- **Footer:** Query time 12 msec, servidor `10.255.255.254#53`.
 
-El registro A devuelve la dirección IPv4 asociada al dominio. Aliexpress.com puede devolver múltiples IPs (round-robin) para distribuir la carga entre servidores.
+El registro A devuelve la dirección IPv4 asociada al dominio. Aliexpress.com devuelve múltiples IPs (round-robin) para distribuir la carga entre servidores.
 
-**Captura:** `capturas/parte3/dig-a.png`
+**Captura:**
+
+![dig A aliexpress.com](../capturas/parte3/dig-a.png)
 
 ---
 
@@ -37,7 +41,11 @@ El registro A devuelve la dirección IPv4 asociada al dominio. Aliexpress.com pu
 dig +short aliexpress.com
 ```
 
-El formato `+short` devuelve únicamente la IP (o IPs) sin cabeceras ni metadatos. La salida es una IP por línea.
+El formato `+short` devuelve únicamente las IPs sin cabeceras ni metadatos:
+```
+47.246.75.137
+47.246.111.53
+```
 
 Esto es útil en scripts de Bash porque la salida se puede:
 - Asignar a una variable: `IP=$(dig +short aliexpress.com)`
@@ -46,7 +54,9 @@ Esto es útil en scripts de Bash porque la salida se puede:
 
 Con `dig` normal habría que parsear la salida con grep/awk para extraer la IP. Con `+short`, la salida ya está limpia.
 
-**Captura:** `capturas/parte3/dig-short.png`
+**Captura:**
+
+![dig +short aliexpress.com](../capturas/parte3/dig-short.png)
 
 ---
 
@@ -56,23 +66,23 @@ Con `dig` normal habría que parsear la salida con grep/awk para extraer la IP. 
 dig MX aliexpress.com
 ```
 
-El registro MX (Mail Exchange) indica qué servidores de correo reciben los emails del dominio. La respuesta incluye:
+El registro MX (Mail Exchange) indica qué servidores de correo reciben los emails del dominio. La respuesta muestra:
 
-- Nombre del dominio
-- TTL
-- Clase (IN)
-- Tipo (MX)
-- Prioridad/Preference: un número entero. Cuanto menor sea el número, mayor es la prioridad. El servidor con prioridad más baja se intenta primero.
-- Servidor de correo (FQDN)
-
-Ejemplo:
 ```
-aliexpress.com.  3600  IN  MX  10  mx1.aliexpress.com.
-aliexpress.com.  3600  IN  MX  20  mx2.aliexpress.com.
+aliexpress.com. 600 IN MX 10 mx2.mail.aliyun.com.
 ```
-mx1 tiene prioridad 10 (mayor prioridad, se intenta primero) y mx2 tiene prioridad 20 (se intenta si mx1 no responde).
 
-**Captura:** `capturas/parte3/dig-mx.png`
+- **Dominio:** aliexpress.com.
+- **TTL:** 600 segundos
+- **Tipo:** MX
+- **Prioridad/Preference:** 10 (número entero; cuanto menor sea, mayor prioridad)
+- **Servidor de correo:** mx2.mail.aliyun.com.
+
+El servidor de correo de AliExpress es mx2.mail.aliyun.com (servidor de Alibaba Cloud), con prioridad 10. Al ser el único servidor MX, es el que recibe todo el correo del dominio.
+
+**Captura:**
+
+![dig MX aliexpress.com](../capturas/parte3/dig-mx.png)
 
 ---
 
@@ -82,17 +92,18 @@ mx1 tiene prioridad 10 (mayor prioridad, se intenta primero) y mx2 tiene priorid
 dig NS aliexpress.com
 ```
 
-El registro NS (Name Server) lista los servidores de nombres autoritativos para el dominio. Estos son los servidores que tienen la respuesta oficial y definitiva para las consultas DNS de aliexpress.com.
+El registro NS (Name Server) lista los servidores autoritativos para el dominio:
 
-Ejemplo:
 ```
-aliexpress.com.  86400  IN  NS  ns1.aliexpress.com.
-aliexpress.com.  86400  IN  NS  ns2.aliexpress.com.
+aliexpress.com. 2996 IN NS ns1.alibabadns.com.
+aliexpress.com. 2996 IN NS ns2.alibabadns.com.
 ```
 
-El TTL de los registros NS suele ser alto (86400 segundos = 24 horas) porque los servidores autoritativos raramente cambian.
+Estos son los servidores que tienen la zona del dominio de aliexpress.com y las respuestas definitivas. Cualquier cambio en los registros DNS de aliexpress.com debe hacerse en estos servidores autoritativos. El TTL de los registros NS es de 2996 segundos, relativamente alto porque los servidores autoritativos raramente cambian.
 
-**Captura:** `capturas/parte3/dig-ns.png`
+**Captura:**
+
+![dig NS aliexpress.com](../capturas/parte3/dig-ns.png)
 
 ---
 
@@ -109,32 +120,51 @@ El TTL de los registros NS suele ser alto (86400 segundos = 24 horas) porque los
 
 El SOA define cómo se gestiona la zona (metadatos de sincronización). El NS define quién tiene autoridad sobre la zona (qué servidores responden).
 
-**Captura del SOA:**
+**Consulta del registro SOA:**
 ```bash
 dig SOA aliexpress.com
 ```
-**Captura:** `capturas/parte3/dig-soa.png`
+
+Resultado:
+```
+aliexpress.com. 600 IN SOA ns1.alibabadns.com. hostmaster.alibabadns.com. 2018051019 3600 1200 86400 360
+```
+
+- **Servidor primario:** ns1.alibabadns.com.
+- **Email del administrador:** hostmaster.alibabadns.com.
+- **Serial:** 2018051019 (formato fecha: 2018-05-10, versión 19)
+- **Refresh:** 3600 (el servidor secundario comprueba cambios cada hora)
+- **Retry:** 1200 (si falla el refresh, reintenta cada 20 minutos)
+- **Expire:** 86400 (si no puede contactar al primario en 24h, deja de responder)
+- **Minimum TTL:** 360 (TTL mínimo para respuestas negativas)
+
+**Captura:**
+
+![dig SOA aliexpress.com](../capturas/parte3/dig-soa.png)
 
 ---
 
 ### 2.2. Comportamiento del TTL
 
-Ejecutar estos comandos con 5 segundos de diferencia:
+Se ejecutaron dos consultas con 10 segundos de diferencia:
 ```bash
 dig aliexpress.com
-# esperar 5 segundos
+# esperar 10 segundos
 dig aliexpress.com
 ```
 
-Al ejecutar la primera consulta, el TTL del registro A puede ser, por ejemplo, 300 segundos. Al ejecutar la segunda consulta 5 segundos después, el TTL debería haber disminuido a 295 segundos (300 - 5).
+**Primera consulta** (20:57:20): TTL = **267** segundos
+**Segunda consulta** (20:57:30): TTL = **257** segundos
 
-Esto demuestra que la segunda respuesta viene de la caché local, no del servidor autoritativo. El resolutor DNS local ha cacheado la respuesta de la primera consulta y, en la segunda, devuelve la versión cacheada con el TTL decrementado.
+El TTL disminuyó en 10 segundos (de 267 a 257), coincidiendo exactamente con el tiempo transcurrido entre ambas consultas.
 
-Si la segunda respuesta viniera del servidor autoritativo, el TTL volvería a ser 300 (el valor original) porque el servidor autoritativo siempre devuelve el TTL completo configurado en la zona.
+Esto demuestra que la segunda respuesta viene de la **caché local**, no del servidor autoritativo. El resolutor DNS local cacheó la respuesta de la primera consulta y, en la segunda, devolvió la versión cacheada con el TTL decrementado. Si la respuesta viniera del servidor autoritativo, el TTL volvería a ser el valor original configurado en la zona (en este caso 600, como se vio en la consulta SOA).
 
-La disminución del TTL demuestra que la respuesta proviene de la caché y no del servidor autoritativo. Esto es relevante porque las respuestas cacheadas son más rápidas pero pueden estar desactualizadas si el dominio cambió de IP recientemente.
+La disminución del TTL demuestra que la respuesta proviene de la caché y no del servidor autoritativo. Esto es relevante porque las respuestas cacheadas son más rápidas (4 ms en la segunda consulta vs 12 ms en la primera) pero pueden estar desactualizadas si el dominio cambió de IP recientemente.
 
-**Captura:** `capturas/parte3/ttl-comparativa.png` (captura con ambas consultas mostrando el TTL diferente)
+**Captura:**
+
+![Comparativa de TTL entre dos consultas](../capturas/parte3/ttl-comparativa.png)
 
 ---
 
@@ -162,8 +192,8 @@ Los servidores raíz responden con la lista de servidores autoritativos para el 
 
 **Paso 3: Servidores autoritativos del dominio**
 ```
-aliexpress.com.  172800  IN  NS  ns1.aliexpress.com.
-aliexpress.com.  172800  IN  NS  ns2.aliexpress.com.
+aliexpress.com.  172800  IN  NS  ns1.alibabadns.com.
+aliexpress.com.  172800  IN  NS  ns2.alibabadns.com.
 ```
 Los servidores del TLD .com responden con los servidores autoritativos de aliexpress.com. Son los servidores que tienen la zona del dominio y las respuestas definitivas.
 
@@ -180,29 +210,20 @@ Recorrido completo:
 
 **Captura:** `capturas/parte3/dig-trace.png`
 
----
-
-## Resumen de comandos a ejecutar
-
-| # | Comando | Captura |
-|---|---|---|
-| 1 | `dig aliexpress.com` | `capturas/parte3/dig-a.png` |
-| 2 | `dig +short aliexpress.com` | `capturas/parte3/dig-short.png` |
-| 3 | `dig MX aliexpress.com` | `capturas/parte3/dig-mx.png` |
-| 4 | `dig NS aliexpress.com` | `capturas/parte3/dig-ns.png` |
-| 5 | `dig SOA aliexpress.com` | `capturas/parte3/dig-soa.png` |
-| 6 | `dig aliexpress.com` (x2, 5s de diferencia) | `capturas/parte3/ttl-comparativa.png` |
-| 7 | `dig +trace aliexpress.com` | `capturas/parte3/dig-trace.png` |
+> **Nota:** La primera ejecución de `dig +trace` falló con timeout del servidor DNS de WSL (`10.255.255.254#53`). Hay que volver a ejecutarlo usando un servidor DNS público explícito:
+> ```bash
+> dig +trace aliexpress.com @9.9.9.9
+> ```
 
 ---
 
 ## Checklist Parte 3
 
-- [ ] dig A ejecutado y capturado
-- [ ] dig +short ejecutado y explicado
-- [ ] dig MX ejecutado con prioridades
-- [ ] dig NS ejecutado con servidores autoritativos
-- [ ] dig SOA ejecutado
-- [ ] Diferencia SOA vs NS explicada
-- [ ] Comportamiento TTL documentado (2 consultas)
-- [ ] dig +trace ejecutado y explicado paso a paso
+- [x] dig A ejecutado y capturado
+- [x] dig +short ejecutado y explicado
+- [x] dig MX ejecutado con prioridades
+- [x] dig NS ejecutado con servidores autoritativos
+- [x] dig SOA ejecutado
+- [x] Diferencia SOA vs NS explicada
+- [x] Comportamiento TTL documentado (267 → 257 en 10 segundos)
+- [ ] dig +trace ejecutado y explicado paso a paso (falta reintentar con @9.9.9.9)
