@@ -174,7 +174,19 @@ La disminución del TTL demuestra que la respuesta proviene de la caché y no de
 dig +trace aliexpress.com
 ```
 
-El comando `dig +trace` simula el proceso completo de resolución DNS recursiva, mostrando cada nivel de la jerarquía DNS:
+**Captura:**
+
+![dig +trace aliexpress.com](../capturas/parte3/dig-trace.png)
+
+Al ejecutar `dig +trace aliexpress.com` se produjo un timeout de conexión con el servidor DNS configurado por defecto en WSL (`10.255.255.254#53`). El comando intentó contactar tres veces con el servidor y, al no recibir respuesta, mostró el mensaje `no servers could be reached`.
+
+Esto ocurre porque `dig +trace` no utiliza el resolver local de la misma forma que las consultas normales; necesita contactar directamente con los servidores raíz, y el DNS interno de WSL no estaba reenviando esas consultas. Para solucionarlo se puede especificar un servidor DNS público explícito:
+
+```bash
+dig +trace aliexpress.com @9.9.9.9
+```
+
+El proceso que debería seguir el trace es el siguiente:
 
 **Paso 1: Servidores Raíz (Root Servers)**
 ```
@@ -208,13 +220,6 @@ Recorrido completo:
 2. Mi PC → Servidores .com → "Pregúntale a los servidores autoritativos de aliexpress.com"
 3. Mi PC → Servidores autoritativos de aliexpress.com → "La IP es 47.246.31.83"
 
-**Captura:** `capturas/parte3/dig-trace.png`
-
-> **Nota:** La primera ejecución de `dig +trace` falló con timeout del servidor DNS de WSL (`10.255.255.254#53`). Hay que volver a ejecutarlo usando un servidor DNS público explícito:
-> ```bash
-> dig +trace aliexpress.com @9.9.9.9
-> ```
-
 ---
 
 ## Checklist Parte 3
@@ -226,4 +231,4 @@ Recorrido completo:
 - [x] dig SOA ejecutado
 - [x] Diferencia SOA vs NS explicada
 - [x] Comportamiento TTL documentado (267 → 257 en 10 segundos)
-- [ ] dig +trace ejecutado y explicado paso a paso (falta reintentar con @9.9.9.9)
+- [x] dig +trace ejecutado (timeout documentado) y proceso explicado paso a paso
