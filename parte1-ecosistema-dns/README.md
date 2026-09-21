@@ -8,18 +8,16 @@
 
 ### 1.1. ¿Qué organismo internacional coordina y asigna los parámetros a nivel global del sistema de nombres de dominio e IPs?
 
-**Respuesta:**
+**ICANN (Internet Corporation for Assigned Names and Numbers)** es la organización sin ánimo de lucro que coordina a nivel global el sistema de nombres de dominio e IPs. Es responsable de la operación estable y segura de los identificadores únicos de Internet.
 
-> ICANN (Internet Corporation for Assigned Names and Numbers) es la organización internacional sin ánimo de lucro que coordina a nivel global el sistema de nombres de dominio e IPs. Es responsable de la operación estable y segura de la red de identificadores únicos de Internet.
->
-> Dentro de ICANN, la **IANA (Internet Assigned Numbers Authority)** es el departamento operativo encargado de gestionar directamente los recursos técnicos: raíz del DNS, espacios de direcciones IP, y números de protocolo. IANA funciona bajo el contrato con ICANN.
->
-> **Jerarquía de autoridad:**
-> - **ICANN**: coordinación global, política, supervisión
-> - **IANA**: departamento operativo dentro de ICANN que gestiona la raíz del DNS
-> - **Registros raíz (Root Servers)**: 13 servidores raíz repartidos mundialmente (a.root-servers.org a m.root-servers.org)
+Dentro de ICANN, la **IANA (Internet Assigned Numbers Authority)** es el departamento operativo que gestiona directamente la raíz del DNS, los espacios de direcciones IP y los números de protocolo. IANA funciona bajo contrato con ICANN.
 
-**Fuente:** https://www.icann.org/ | https://www.iana.org/
+Jerarquía de autoridad:
+- **ICANN**: coordinación global, política y supervisión
+- **IANA**: gestión operativa de la raíz del DNS, IPs y protocolos
+- **Root Servers**: 13 servidores raíz repartidos mundialmente (a.root-servers.org a m.root-servers.org)
+
+Fuentes: https://www.icann.org/ | https://www.iana.org/
 
 ---
 
@@ -27,12 +25,12 @@
 
 | TLD | Organismo Registry | Descripción |
 |---|---|---|
-| **.es** | **Red.es** (NIC.es / dominios.es) | Entidad pública empresarial del Ministerio de Asuntos Económicos y Transformación Digital de España. Gestiona el ccTLD de España. |
-| **.cat** | **Fundació puntCAT** | Fundación privada sin ánimo de lucro con sede en Barcelona, creada para gestionar el dominio .cat, dedicado a la lengua y cultura catalana. |
+| **.es** | **Red.es** (dominios.es) | Entidad pública empresarial del Ministerio de Asuntos Económicos y Transformación Digital. Gestiona el ccTLD de España. |
+| **.cat** | **Fundació puntCAT** | Fundación privada sin ánimo de lucro con sede en Barcelona. Gestiona el dominio dedicado a la lengua y cultura catalana. |
 | **.edu** | **EDUCAUSE** | Asociación sin ánimo de lucro estadounidense que gestiona el TLD .edu, reservado para instituciones educativas postsecundarias acreditadas. |
-| **.ifp.es** | Subdominio gestionado por **Red.es** como registry del ccTLD .es, delegado a la organización propietaria (en este caso IFP - Institut de Formació Professional). | El dominio .ifp.es es un subdominio de segundo nivel bajo .es. El registry sigue siendo Red.es, pero la gestión del subdominio la realiza la entidad registrante. |
+| **.ifp.es** | Subdominio bajo .es gestionado por **Red.es** como registry, delegado a la entidad propietaria (IFP). | El registry sigue siendo Red.es; la gestión del subdominio la realiza la entidad registrante. |
 
-**Fuentes:**
+Fuentes:
 - .es: https://www.dominios.es/ | https://www.red.es/
 - .cat: https://www.puntcat.cat/
 - .edu: https://www.educause.edu/
@@ -41,143 +39,104 @@
 
 ## 2. Herramientas OSINT (Whois y DNS Lookup)
 
-> Utiliza herramientas online (como Dominios.es, whois.com, nslookup.io) para responder a lo siguiente.
-
 ### 2.1. ¿Qué información te brinda una consulta Whois sobre un dominio?
 
 **Dominio consultado:** `amazon.com`
 
-**Respuesta:**
+Una consulta Whois proporciona información pública sobre el registro de un dominio. Para el caso de **amazon.com**, la consulta devuelve:
 
-> Una consulta Whois proporciona información pública sobre el registro de un dominio. Para el caso de **amazon.com**, la consulta devuelve:
->
-> - **Datos del registrante:** Amazon Technologies, Inc. — Hostmaster, Amazon Legal Dept. — P.O. Box 8102, Reno, NV 89507, US — Tel: +1.2062664064
-> - **Datos del registrador:** MarkMonitor Inc. (IANA ID: 292) — Email de abuso: abusecomplaints@markmonitor.com
-> - **Fechas:**
->   - Creación (Registered On): 1994-11-01
->   - Expiración (Expires On): 2027-10-31
->   - Última actualización (Updated On): 2026-07-31
-> - **Servidores de nombres (Name Servers):**
->   - ns-1447.awsdns-52.org
->   - ns-1707.awsdns-21.co.uk
->   - ns-264.awsdns-33.com
->   - ns-521.awsdns-01.net
-> - **Estado del dominio (Domain Status):**
->   - client delete prohibited
->   - client transfer prohibited
->   - client update prohibited
->   - server delete prohibited
->   - server transfer prohibited
->   - server update prohibited
->
-> Estos estados indican que el dominio está protegido contra eliminaciones, transferencias y modificaciones no autorizadas, tanto a nivel de cliente (MarkMonitor) como de servidor (Verisign como registry de .com). Esto es típico de dominios corporativos críticos.
+- **Datos del registrante:** Amazon Technologies, Inc. — Hostmaster, Amazon Legal Dept. — P.O. Box 8102, Reno, NV 89507, US — Tel: +1.2062664064
+- **Datos del registrador:** MarkMonitor Inc. (IANA ID: 292) — Email de abuso: abusecomplaints@markmonitor.com
+- **Fechas:**
+  - Creación (Registered On): 1994-11-01
+  - Expiración (Expires On): 2027-10-31
+  - Última actualización (Updated On): 2026-07-31
+- **Servidores de nombres (Name Servers):**
+  - ns-1447.awsdns-52.org
+  - ns-1707.awsdns-21.co.uk
+  - ns-264.awsdns-33.com
+  - ns-521.awsdns-01.net
+- **Estado del dominio (Domain Status):**
+  - client delete prohibited
+  - client transfer prohibited
+  - client update prohibited
+  - server delete prohibited
+  - server transfer prohibited
+  - server update prohibited
+
+Estos estados indican que el dominio está protegido contra eliminaciones, transferencias y modificaciones no autorizadas, tanto a nivel de cliente (MarkMonitor) como de servidor (Verisign como registry de .com). Es algo típico en dominios corporativos críticos.
 
 **Captura:**
 
 ![Consulta Whois de amazon.com](../capturas/parte1/whois-amazon.png)
 
-**Herramienta utilizada:** https://www.whois.com/whois/amazon.com
+Herramienta utilizada: https://www.whois.com/whois/amazon.com
 
 ---
 
 ### 2.2. Define brevemente la diferencia entre el Registry de la base de datos y el Registrar (Registrador) del dominio
 
-**Respuesta:**
+| Concepto | Definición | Ejemplo |
+|---|---|---|
+| **Registry (Registro)** | Organización que gestiona y mantiene la base de datos central de un TLD concreto. Tiene el control autoritativo sobre todos los dominios de ese TLD. | Verisign para .com, Red.es para .es, Fundació puntCAT para .cat |
+| **Registrar (Registrador)** | Empresa acreditada por el Registry (o por ICANN) que vende dominios al público final. Actúa como intermediario entre el usuario y el Registry. | GoDaddy, Namecheap, Arsys, DonDominio |
 
-> | Concepto | Definición | Ejemplo |
-> |---|---|---|
-> | **Registry (Registro)** | Organización que gestiona y mantiene la base de datos central de un TLD concreto. Tiene el control autoritativo sobre todos los dominios de ese TLD. Opera el registro a nivel de la zona raíz. | Verisign para .com, Red.es para .es, Fundació puntCAT para .cat |
-> | **Registrar (Registrador)** | Empresa acreditada por el Registry (o por ICANN) que vende dominios al público final. Actúa como intermediario entre el usuario y el Registry. | GoDaddy, Namecheap, Arsys, DonDominio |
->
-> **Analogía:** El Registry es como el fabricante de matrículas de coche para todo un país (define quién tiene qué matrícula), y el Registrar es el concesionario donde tú vas a registrar tu coche y obtener la matrícula.
+**Analogía:** El Registry es como la DGT, que define qué matrículas existen y quién las tiene asignadas. El Registrar es el concesionario donde vas a tramitar el registro de tu coche.
 
 ---
 
 ### 2.3. Investiga: ¿Qué es DNSSEC y qué problema de seguridad intenta resolver en las resoluciones DNS?
 
-**Respuesta:**
+**DNSSEC (Domain Name System Security Extensions)** es un conjunto de extensiones del protocolo DNS que proporciona autenticación de origen e integridad de datos en las respuestas DNS.
 
-> **DNSSEC (Domain Name System Security Extensions)** es un conjunto de extensiones de seguridad del protocolo DNS que proporciona **autenticación de origen** e **integridad de datos** en las respuestas DNS.
->
-> **Problema que resuelve:** El DNS original no tiene mecanismos de seguridad. Un atacante puede realizar un ataque de **DNS Spoofing / Cache Poisoning**, que consiste en inyectar respuestas DNS falsas en la caché de un servidor DNS resolutor, de modo que cuando un usuario intenta acceder a un dominio legítimo, es redirigido a una IP maliciosa controlada por el atacante (por ejemplo, para phishing).
->
-> **Cómo funciona DNSSEC:**
-> - Utiliza **criptografía de clave pública** (firmas digitales)
-> - Cada zona DNS genera un par de claves: **KSK (Key Signing Key)** y **ZSK (Zone Signing Key)**
-> - Los registros DNS se firman digitalmente con la ZSK
-> - La ZSK se firma con la KSK, que se publica en el registro padre (cadena de confianza o "chain of trust")
-> - La clave pública KSK de la raíz se distribuye de forma segura y es el punto de partida de la cadena
-> - El resolutor valida las firmas al recibir las respuestas; si la firma no coincide, descarta la respuesta
->
-> **Tipo de registros DNSSEC:** DNSKEY, RRSIG, DS, NSEC, NSEC3
+**Problema que resuelve:** El DNS original no tiene mecanismos de seguridad. Un atacante puede realizar un ataque de DNS Spoofing / Cache Poisoning, que consiste en inyectar respuestas DNS falsas en la caché de un servidor resolutor, de modo que cuando un usuario intenta acceder a un dominio legítimo, es redirigido a una IP maliciosa (por ejemplo, para phishing).
 
-**Fuentes:** https://www.icann.org/dnssec | https://datatracker.ietf.org/doc/html/rfc4033
+**Cómo funciona:**
+- Utiliza criptografía de clave pública (firmas digitales)
+- Cada zona DNS genera un par de claves: KSK (Key Signing Key) y ZSK (Zone Signing Key)
+- Los registros DNS se firman digitalmente con la ZSK
+- La ZSK se firma con la KSK, que se publica en el registro padre (cadena de confianza)
+- La clave pública KSK de la raíz se distribuye de forma segura y es el punto de partida de la cadena
+- El resolutor valida las firmas al recibir las respuestas; si la firma no coincide, descarta la respuesta
+
+Registros DNSSEC: DNSKEY, RRSIG, DS, NSEC, NSEC3
+
+Fuentes: https://www.icann.org/dnssec | https://datatracker.ietf.org/doc/html/rfc4033
 
 ---
 
 ## 3. Rendimiento DNS: Benchmark de servidores DNS
 
-> **Nota sobre GRC DNS Benchmark:** La página de GRC (https://www.grc.com/dns/benchmark.htm) ya no ofrece la versión gratuita v1 para descarga. La versión gratuita fue retirada porque sus rankings estaban desactualizados. Actualmente solo ofrecen la v2 de pago ($9.95). Por ello, utilizamos **DNS Jumper** como alternativa gratuita.
+> La página de GRC DNS Benchmark (https://www.grc.com/dns/benchmark.htm) ya no ofrece la versión gratuita v1. La retiraron porque sus rankings estaban desactualizados y ahora solo ofrecen la v2 de pago ($9.95). Por ello se utiliza DNS Jumper como alternativa gratuita.
 
-### 3.1. Alternativa gratuita: DNS Jumper
+### 3.1. Herramienta utilizada: DNS Jumper v2.3
 
-**DNS Jumper** es una herramienta gratuita y portátil (no requiere instalación) para Windows que permite benchmarkar servidores DNS y cambiarlos fácilmente.
+DNS Jumper es una herramienta gratuita y portátil (no requiere instalación) para Windows que permite benchmarkar servidores DNS y cambiarlos fácilmente.
 
-**Descarga:**
-1. Ve a https://www.sordum.org/dns-jumper/
-2. Pulsa el botón de descarga
-3. Descomprime el archivo .zip
-4. Ejecuta `DnsJumper.exe`
+Descarga desde: https://www.sordum.org/dns-jumper/
 
-### 3.2. Ejecutar el benchmark
+### 3.2. Ejecución del benchmark
 
-> 1. Abre DNS Jumper (`DnsJumper.exe`)
-> 2. Ve a la pestaña "Fastest DNS" (botón en la parte inferior)
-> 3. Pulsa "Start DNS Test"
-> 4. Espera a que complete el test (~1-2 minutos, prueba ~30 servidores DNS)
-> 5. Cuando termine, aparecerá una lista ordenada por velocidad
-> 6. Anota los 3 servidores más rápidos con sus IPs
-> 7. Haz una captura de pantalla de los resultados
+1. Abrir DNS Jumper (`DnsJumper.exe`)
+2. Ir a la pestaña "DNS más rápido" (Fastest DNS)
+3. Pulsar "Iniciar prueba de DNS" (Start DNS Test)
+4. Esperar a que complete el test (~1-2 minutos)
+5. Resultados ordenados por velocidad de respuesta
 
-### 3.3. Otras alternativas (sin instalar nada)
+### 3.3. Resultados del benchmark
 
-Si prefieres no instalar nada, puedes usar herramientas online desde el navegador:
+| Posición | Servidor DNS | DNS 1 | DNS 2 | Resultado 1 | Resultado 2 | Empresa | Descripción |
+|---|---|---|---|---|---|---|---|
+| 1º | US - OpenDNS - 2 | 208.67.220.222 | 208.67.222.220 | 12 ms | 46 ms | Cisco/OpenDNS | Servicio de DNS fundado en 2006 y adquirido por Cisco en 2015. Ofrece DNS rápido y seguro con opciones de filtrado de contenido. |
+| 2º | US - Norton ConnectSafe | 199.85.127.10 | 199.85.126.10 | 12 ms | 19 ms | Norton/Symantec | Servicio DNS gratuito de Norton que ofrecía filtrado de malware y contenido. Los servidores siguen respondiendo aunque el soporte está descontinuado. |
+| 3º | US - Quad9 Security | 9.9.9.9 | 149.112.112.112 | 12 ms | 14 ms | Quad9 Foundation | Fundación sin ánimo de lucro con sede en Suiza, creada en 2017. Ofrece DNS gratuito que bloquea dominios maliciosos y protege la privacidad. |
 
-| Herramienta | URL | Tipo |
-|---|---|---|
-| **ControlD DNS Speed Test** | https://controld.com/tools/dns-speed-test | Online, sin instalación |
-| **DNS Speed Test Online** | https://dnsspeedtest.online/ | Online, sin instalación |
-| **CyberFurl DNS Benchmark** | https://cyberfurl.com/tools/dns/dns-benchmark | Online, sin instalación |
+Los tres servidores respondieron en 12 ms en el primer test. Para desempatar, nos basamos en el segundo resultado: Quad9 (14 ms) fue el más estable, seguido de Norton (19 ms) y OpenDNS (46 ms).
 
-### 3.4. Selecciona los 3 servidores más rápidos
-
-> **Resultados del benchmark con DNS Jumper v2.3:**
->
-> | Posición | Servidor DNS | DNS 1 | DNS 2 | Resultado 1 | Resultado 2 | Empresa | Argumentación |
-> |---|---|---|---|---|---|---|---|
-> | 1º | US - OpenDNS - 2 | 208.67.220.222 | 208.67.222.220 | 12 ms | 46 ms | **Cisco/OpenDNS** | OpenDNS es un servicio de DNS fundado en 2006 y adquirido por Cisco en 2015. Ofrece DNS rápido y seguro, con opciones de filtrado de contenido. Es uno de los servicios DNS públicos más populares del mundo. |
-> | 2º | US - Norton ConnectSafe | 199.85.127.10 | 199.85.126.10 | 12 ms | 19 ms | **Norton/Symantec** | Norton ConnectSafe era un servicio DNS gratuito de Norton (Symantec) que ofrecía filtrado de malware y contenido para adultos. Aunque su soporte ha sido descontinuado, los servidores siguen respondiendo. |
-> | 3º | US - Quad9 Security | 9.9.9.9 | 149.112.112.112 | 12 ms | 14 ms | **Quad9 Foundation** | Quad9 es una fundación sin ánimo de lucro con sede en Suiza, creada en 2017. Ofrece un servicio DNS gratuito que bloquea automáticamente dominios maliciosos conocidos y protege la privacidad del usuario. |
->
-> **Nota:** Los tres servidores más rápidos respondieron en 12 ms en el primer test. Para desempatar, nos basamos en el segundo resultado (Resultado 2), donde Quad9 (14 ms) fue el más estable, seguido de Norton (19 ms) y OpenDNS (46 ms).
->
-> **DNS que utilizaremos en la Parte 2:**
-> - DNS primario: **9.9.9.9** (Quad9 Security)
-> - DNS secundario: **149.112.112.112** (Quad9 Security)
-> - Alternativa: **208.67.220.222** (OpenDNS)
+**DNS seleccionados para la Parte 2:**
+- DNS primario: 9.9.9.9 (Quad9 Security)
+- DNS secundario: 149.112.112.112 (Quad9 Security)
 
 **Captura:**
 
 ![Resultados del benchmark DNS Jumper](../capturas/parte1/dns-benchmark.png)
-
----
-
-## Checklist Parte 1
-
-- [x] Jerarquía DNS investigada (ICANN/IANA)
-- [x] TLDs identificados (.es, .cat, .edu, .ifp.es)
-- [x] Consulta Whois realizada y capturada (amazon.com)
-- [x] Diferencia Registry vs Registrar explicada
-- [x] DNSSEC investigado
-- [x] Benchmark DNS ejecutado y capturado (DNS Jumper v2.3)
-- [x] 3 servidores DNS más rápidos anotados (OpenDNS, Norton, Quad9)

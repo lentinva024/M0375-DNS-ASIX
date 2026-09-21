@@ -6,16 +6,16 @@
 
 ```
 M0375-DNS-ASIX/
-├── README.md                          ← Este archivo (índice general)
+├── README.md                          (este archivo)
 ├── parte1-ecosistema-dns/
-│   └── README.md                       ← Parte 1: OSINT y Web [2p]
+│   └── README.md                       Parte 1: OSINT y Web [2p]
 ├── parte2-configuracion-cache/
-│   └── README.md                       ← Parte 2: Configuración y Caché [2p]
+│   └── README.md                       Parte 2: Configuración y Caché [2p]
 ├── parte3-troubleshooting-dig/
-│   └── README.md                       ← Parte 3: DIG y CLI [3p]
+│   └── README.md                       Parte 3: DIG y CLI [3p]
 ├── parte4-analisis-wireshark/
-│   └── README.md                       ← Parte 4: Wireshark [3p]
-└── capturas/                           ← Carpeta para todas las capturas de pantalla
+│   └── README.md                       Parte 4: Wireshark [3p]
+└── capturas/
     ├── parte1/
     ├── parte2/
     ├── parte3/
@@ -33,4 +33,4 @@ M0375-DNS-ASIX/
 
 ### Formato de Entrega
 
-URL al informe documentado en **Gitbook personal**.
+URL al informe documentado en Gitbook personal.

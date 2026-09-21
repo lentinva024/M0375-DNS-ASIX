@@ -1,9 +1,6 @@
 # Parte 4: Análisis de Tráfico de Red (Wireshark) [3p]
 
-> **Esta parte la realiza un compañero de equipo.**
-> Aquí se documentan los pasos para que tu compañero pueda completarla.
-
-> Vamos a comprobar qué viaja realmente por el cable físico cuando resolvemos un nombre.
+> Esta parte la realiza un compañero de equipo.
 
 ---
 
@@ -11,16 +8,16 @@
 
 ### Pasos:
 
-1. Abre Wireshark en tu equipo
-2. Selecciona tu tarjeta de red principal (la que tenga tráfico)
-3. Inicia la captura
-4. Aplica el filtro: `dns` o `udp.port == 53`
-5. Abre una terminal y ejecuta:
+1. Abrir Wireshark
+2. Seleccionar la tarjeta de red principal
+3. Iniciar la captura
+4. Aplicar el filtro: `dns` o `udp.port == 53`
+5. Abrir una terminal y ejecutar:
    ```bash
    nslookup -type=mx google.com
    ```
-6. Detén la captura
-7. Localiza el intercambio Query → Response
+6. Detener la captura
+7. Localizar el intercambio Query → Response
 
 **Captura general:** `capturas/parte4/wireshark-captura-general.png`
 
@@ -30,13 +27,9 @@
 
 ### 2.1. Capa de Transporte
 
-> **¿Qué protocolo se utiliza (TCP o UDP)?**
->
-> (Documentar respuesta)
->
-> **¿Por qué DNS utiliza este protocolo por defecto en lugar del otro?**
->
-> (Explicar: DNS usa UDP por defecto porque las consultas son pequeñas (<512 bytes normalmente), UDP es más rápido (sin handshake), y no requiere conexión. TCP se usa solo para respuestas grandes (transferencias de zona, respuestas >512 bytes con EDNS0 deshabilitado) o para DNS over TCP/TLS.)
+¿Qué protocolo se utiliza (TCP o UDP)?
+
+DNS usa UDP por defecto porque las consultas son pequeñas (normalmente <512 bytes), UDP es más rápido al no requerir handshake (establecimiento de conexión), y no necesita conexión. TCP se usa solo para respuestas grandes (transferencias de zona) o cuando se supera el límite de 512 bytes sin EDNS0.
 
 **Captura:** `capturas/parte4/wireshark-protocolo.png`
 
@@ -44,8 +37,8 @@
 
 ### 2.2. Puertos
 
-> **Puerto de origen (cliente):** (dinámico, >1024, ej. 51234)
-> **Puerto de destino (servidor):** 53 (well-known)
+- Puerto de origen (cliente): dinámico, >1024 (ej. 51234)
+- Puerto de destino (servidor): 53 (well-known)
 
 **Captura:** `capturas/parte4/wireshark-puertos.png`
 
@@ -53,7 +46,7 @@
 
 ### 2.3. Identificador de transacción (Transaction ID)
 
-> (Expandir sección Domain Name System en Wireshark y documentar el Transaction ID que vincula Query con Response)
+En la sección "Domain Name System" de Wireshark, el Transaction ID vincula la petición (Query) con la respuesta (Response). Ambos paquetes comparten el mismo identificador.
 
 **Captura:** `capturas/parte4/wireshark-transaction-id.png`
 
@@ -61,9 +54,10 @@
 
 ### 2.4. Flags
 
-> (En el paquete de Response, desplegar sección Flags)
-> - **Authoritative Answer (AA):** ¿Está a 0 o a 1?
-> - **Significado:** (explicar)
+En el paquete de Response, desplegar la sección Flags:
+- Authoritative Answer (AA): ¿Está a 0 o a 1?
+- Si está a 0: la respuesta no es autoritativa (viene de un resolver/caché)
+- Si está a 1: la respuesta es autoritativa (viene directamente del servidor autoritativo del dominio)
 
 **Captura:** `capturas/parte4/wireshark-flags.png`
 
@@ -71,8 +65,7 @@
 
 ### 2.5. Respuestas (Answers)
 
-> (Desplegar bloque de respuestas del registro MX de google.com)
-> **Servidor de correo con mayor prioridad (preference más bajo):** (documentar)
+Desplegar el bloque de respuestas del registro MX de google.com. El servidor de correo con mayor prioridad es el que tiene el número de preference más bajo.
 
 **Captura:** `capturas/parte4/wireshark-answers.png`
 
