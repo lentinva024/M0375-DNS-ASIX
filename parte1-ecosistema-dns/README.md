@@ -115,35 +115,53 @@
 
 ---
 
-## 3. Rendimiento DNS: GRC DNS Benchmark
+## 3. Rendimiento DNS: Benchmark de servidores DNS
 
-### 3.1. Descargar y ejecutar GRC DNS Benchmark
+> **Nota sobre GRC DNS Benchmark:** La página de GRC (https://www.grc.com/dns/benchmark.htm) ya no ofrece la versión gratuita v1 para descarga. La versión gratuita fue retirada porque sus rankings estaban desactualizados. Actualmente solo ofrecen la v2 de pago ($9.95). Por ello, utilizamos **DNS Jumper** como alternativa gratuita.
 
-> 1. Ve a https://www.grc.com/dns/benchmark.htm
-> 2. Descarga la aplicación (DNSBench.exe, ~160KB, no requiere instalación)
-> 3. Ejecútala como administrador
+### 3.1. Alternativa gratuita: DNS Jumper
 
-### 3.2. Ejecutar el test
+**DNS Jumper** es una herramienta gratuita y portátil (no requiere instalación) para Windows que permite benchmarkar servidores DNS y cambiarlos fácilmente.
 
-> 1. Abre DNSBench
-> 2. Ve a la pestaña "Nameservers"
-> 3. Pulsa "Run Benchmark" (botón superior izquierdo)
-> 4. Espera a que complete el test (~2-3 minutos)
-> 5. Ordena por "Speed" (velocidad de respuesta)
+**Descarga:**
+1. Ve a https://www.sordum.org/dns-jumper/
+2. Pulsa el botón de descarga
+3. Descomprime el archivo .zip
+4. Ejecuta `DnsJumper.exe`
 
-### 3.3. Selecciona los 3 servidores más rápidos
+### 3.2. Ejecutar el benchmark
+
+> 1. Abre DNS Jumper (`DnsJumper.exe`)
+> 2. Ve a la pestaña "Fastest DNS" (botón en la parte inferior)
+> 3. Pulsa "Start DNS Test"
+> 4. Espera a que complete el test (~1-2 minutos, prueba ~30 servidores DNS)
+> 5. Cuando termine, aparecerá una lista ordenada por velocidad
+> 6. Anota los 3 servidores más rápidos con sus IPs
+> 7. Haz una captura de pantalla de los resultados
+
+### 3.3. Otras alternativas (sin instalar nada)
+
+Si prefieres no instalar nada, puedes usar herramientas online desde el navegador:
+
+| Herramienta | URL | Tipo |
+|---|---|---|
+| **ControlD DNS Speed Test** | https://controld.com/tools/dns-speed-test | Online, sin instalación |
+| **DNS Speed Test Online** | https://dnsspeedtest.online/ | Online, sin instalación |
+| **CyberFurl DNS Benchmark** | https://cyberfurl.com/tools/dns/dns-benchmark | Online, sin instalación |
+
+### 3.4. Selecciona los 3 servidores más rápidos
 
 > **Argumentación de los servidores seleccionados:**
 >
 > | Posición | Servidor DNS | IP | Empresa/Proveedor | Argumentación |
 > |---|---|---|---|---|
-> | 1º | (anotar IP) | (IP) | (empresa) | (breve descripción de la empresa) |
-> | 2º | (anotar IP) | (IP) | (empresa) | (breve descripción de la empresa) |
-> | 3º | (anotar IP) | (IP) | (empresa) | (breve descripción de la empresa) |
+> | 1º | (anotar) | (IP) | (empresa) | (breve descripción de la empresa) |
+> | 2º | (anotar) | (IP) | (empresa) | (breve descripción de la empresa) |
+> | 3º | (anotar) | (IP) | (empresa) | (breve descripción de la empresa) |
 >
 > **Nota:** Los resultados dependerán de tu ubicación geográfica (L'Hospitalet de Llobregat, España). Es normal que servidores con presencia en Europa respondan más rápido.
 
-**Captura:** `capturas/parte1/grc-dns-benchmark.png`
+**Captura:** `capturas/parte1/dns-benchmark.png`
 
 ---
 
@@ -154,5 +172,5 @@
 - [x] Consulta Whois realizada y capturada (amazon.com)
 - [ ] Diferencia Registry vs Registrar explicada
 - [ ] DNSSEC investigado
-- [ ] GRC DNS Benchmark ejecutado y capturado
+- [ ] Benchmark DNS ejecutado y capturado (DNS Jumper o alternativa online)
 - [ ] 3 servidores DNS más rápidos anotados
