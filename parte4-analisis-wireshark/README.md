@@ -1,5 +1,8 @@
 # Parte 4: Análisis de Tráfico de Red (Wireshark) [3p]
 
+> **Esta parte la realiza un compañero de equipo.**
+> Aquí se documentan los pasos para que tu compañero pueda completarla.
+
 > Vamos a comprobar qué viaja realmente por el cable físico cuando resolvemos un nombre.
 
 ---

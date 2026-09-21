@@ -151,17 +151,24 @@ Si prefieres no instalar nada, puedes usar herramientas online desde el navegado
 
 ### 3.4. Selecciona los 3 servidores más rápidos
 
-> **Argumentación de los servidores seleccionados:**
+> **Resultados del benchmark con DNS Jumper v2.3:**
 >
-> | Posición | Servidor DNS | IP | Empresa/Proveedor | Argumentación |
-> |---|---|---|---|---|
-> | 1º | (anotar) | (IP) | (empresa) | (breve descripción de la empresa) |
-> | 2º | (anotar) | (IP) | (empresa) | (breve descripción de la empresa) |
-> | 3º | (anotar) | (IP) | (empresa) | (breve descripción de la empresa) |
+> | Posición | Servidor DNS | DNS 1 | DNS 2 | Resultado 1 | Resultado 2 | Empresa | Argumentación |
+> |---|---|---|---|---|---|---|---|
+> | 1º | US - OpenDNS - 2 | 208.67.220.222 | 208.67.222.220 | 12 ms | 46 ms | **Cisco/OpenDNS** | OpenDNS es un servicio de DNS fundado en 2006 y adquirido por Cisco en 2015. Ofrece DNS rápido y seguro, con opciones de filtrado de contenido. Es uno de los servicios DNS públicos más populares del mundo. |
+> | 2º | US - Norton ConnectSafe | 199.85.127.10 | 199.85.126.10 | 12 ms | 19 ms | **Norton/Symantec** | Norton ConnectSafe era un servicio DNS gratuito de Norton (Symantec) que ofrecía filtrado de malware y contenido para adultos. Aunque su soporte ha sido descontinuado, los servidores siguen respondiendo. |
+> | 3º | US - Quad9 Security | 9.9.9.9 | 149.112.112.112 | 12 ms | 14 ms | **Quad9 Foundation** | Quad9 es una fundación sin ánimo de lucro con sede en Suiza, creada en 2017. Ofrece un servicio DNS gratuito que bloquea automáticamente dominios maliciosos conocidos y protege la privacidad del usuario. |
 >
-> **Nota:** Los resultados dependerán de tu ubicación geográfica (L'Hospitalet de Llobregat, España). Es normal que servidores con presencia en Europa respondan más rápido.
+> **Nota:** Los tres servidores más rápidos respondieron en 12 ms en el primer test. Para desempatar, nos basamos en el segundo resultado (Resultado 2), donde Quad9 (14 ms) fue el más estable, seguido de Norton (19 ms) y OpenDNS (46 ms).
+>
+> **DNS que utilizaremos en la Parte 2:**
+> - DNS primario: **9.9.9.9** (Quad9 Security)
+> - DNS secundario: **149.112.112.112** (Quad9 Security)
+> - Alternativa: **208.67.220.222** (OpenDNS)
 
-**Captura:** `capturas/parte1/dns-benchmark.png`
+**Captura:**
+
+![Resultados del benchmark DNS Jumper](../capturas/parte1/dns-benchmark.png)
 
 ---
 
@@ -170,7 +177,7 @@ Si prefieres no instalar nada, puedes usar herramientas online desde el navegado
 - [x] Jerarquía DNS investigada (ICANN/IANA)
 - [x] TLDs identificados (.es, .cat, .edu, .ifp.es)
 - [x] Consulta Whois realizada y capturada (amazon.com)
-- [ ] Diferencia Registry vs Registrar explicada
-- [ ] DNSSEC investigado
-- [ ] Benchmark DNS ejecutado y capturado (DNS Jumper o alternativa online)
-- [ ] 3 servidores DNS más rápidos anotados
+- [x] Diferencia Registry vs Registrar explicada
+- [x] DNSSEC investigado
+- [x] Benchmark DNS ejecutado y capturado (DNS Jumper v2.3)
+- [x] 3 servidores DNS más rápidos anotados (OpenDNS, Norton, Quad9)
